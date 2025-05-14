@@ -31,7 +31,7 @@ skip.onclick=startPowerback;
 
 function startPowerback(){
   blackout.style.display='none';powerback.style.display='flex';
-  setTimeout(()=>{powerback.style.display='none';startImbalance();},200) let t2=20,count2=setInterval(()=>;
+  setTimeout(()=>{powerback.style.display='none';startImbalance();},2000)
 }
 
 function startImbalance(){
