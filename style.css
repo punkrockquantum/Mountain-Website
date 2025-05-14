@@ -1,116 +1,93 @@
-/* --- Global & Torch --- */
+/* Global & torch */
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
-  background: #000;
-  color: #eee;
-  font-family: 'Segoe UI', sans-serif;
-  overflow: hidden;
-  height:100vh;
-  cursor: none;
+  background:#000; color:#eee;
+  font-family:'Segoe UI',sans-serif;
+  overflow:hidden; height:100vh;
+  cursor:none;
 }
 #torch {
-  position:absolute;
-  width: 300px; height: 300px;
-  margin: -150px 0 0 -150px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,240,0.2) 0%, transparent 70%);
-  mix-blend-mode: screen;
-  pointer-events: none;
-  transition: top .02s, left .02s;
-}
-
-/* --- Panels --- */
-#light-switch {
-  position:absolute; top:40%; left:50%;
-  transform:translate(-50%,-50%);
-  padding:1rem 2rem;
-  font-size:1.2rem;
-  background:#222; border:2px solid #555;
-  color:#fff; border-radius:8px;
-}
-#blackout-panel, #ready-panel, #game-panel {
-  position:absolute; top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  text-align:center;
-  display:none;
-}
-#blackout-panel p { margin-bottom:1rem; font-size:1.2rem; }
-#timer {
-  font-size:2.5rem;
-  margin-bottom:1rem;
-  font-family:'Courier New', monospace;
-}
-#skip-quantum, #go-game {
-  background:#3366ff; border:none;
-  padding:.75rem 1.5rem; color:#fff;
-  border-radius:6px; font-size:1rem;
-  cursor:pointer;
-  transition:background .2s;
-}
-#skip-quantum:hover, #go-game:hover {
-  background:#5590ff;
-}
-
-/* --- Game Board --- */
-#board {
-  display:grid;
-  grid-template: repeat(3, 100px) / repeat(3, 100px);
-  gap:10px;
-  margin:1rem auto;
-}
-.cell {
-  background:#111; border:2px solid #555;
-  display:flex; align-items:center; justify-content:center;
-  font-size:2rem; cursor:pointer;
-  transition:background .2s;
-}
-.cell:hover { background:#222; }
-
-/* --- Analysis & Quantum Toggle --- */
-#analysis {
-  background: rgba(0,0,0,0.5);
-  border:1px solid #444;
-  padding:1rem; max-height:150px;
-  overflow-y:auto; text-align:left;
-  margin-bottom:1rem;
-  font-size:0.9rem;
-}
-#quantum-toggle-label {
-  display:none;
-  font-size:1rem;
-  cursor:pointer;
-  margin-bottom:1rem;
-}
-#game-result {
-  margin-top:1rem;
-  font-size:1.3rem;
-}
-#learn-more {
-  display:inline-block;
-  margin-top:1rem;
-  color:#66ccff;
-  text-decoration:none;
-  font-weight:bold;
-}
-#learn-more:hover {
-  text-decoration:underline;
-}
-
-
-#blackout-panel {
-  display: none;    /* hidden initially */
-  /* …your other styling… */
+  position:absolute; width:300px; height:300px;
+  margin:-150px 0 0 -150px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,240,0.2) 0%, transparent 70%);
+  mix-blend-mode:screen; pointer-events:none;
+  transition:top .02s,left .02s;
 }
 
 /* Hide by default */
 #light-switch {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease-in-out;
+  position:absolute; top:40%; left:50%;
+  transform:translate(-50%,-50%);
+  padding:1rem 2rem; font-size:1.2rem;
+  background:#222; border:2px solid #555;
+  color:#fff; border-radius:8px;
+  opacity:0; pointer-events:none;
+  transition:opacity .15s ease;
+}
+/* Show when torch over it */
+#light-switch.visible {
+  opacity:1; pointer-events:auto;
 }
 
-/* When torch hovers over it */
-#light-switch.visible {
-  opacity: 1;
-  pointer-events: auto;
+/* Panels hidden by default */
+#blackout-panel, #ready-panel, #game-panel {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center; display:none;
 }
+/* Blackout styling */
+#blackout-panel p { font-size:1.2rem; margin-bottom:1rem; }
+#timer { font-size:2.5rem; font-family:'Courier New',monospace; margin-bottom:1rem; }
+#skip-quantum, #go-game {
+  background:#3366ff; border:none;
+  color:#fff; padding:.75rem 1.5rem;
+  border-radius:6px; font-size:1rem; cursor:pointer;
+  transition:background .2s;
+}
+#skip-quantum:hover, #go-game:hover { background:#5590ff; }
+
+/* Game panel */
+#game-panel h2 { margin-bottom:1rem; }
+#symbol-selection { margin-bottom:1rem; }
+#symbol-selection button {
+  background:#444; border:none;
+  color:#fff; padding:.5rem .75rem;
+  font-size:1.2rem; margin:0 .5rem; cursor:pointer;
+  border-radius:4px; transition:background .2s;
+}
+#symbol-selection button:hover { background:#666; }
+
+/* Board */
+#board {
+  display:grid;
+  grid-template:repeat(3,100px)/repeat(3,100px);
+  gap:10px; margin:1rem auto;
+}
+.cell {
+  background:#111; border:2px solid #555;
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.5rem; cursor:pointer;
+  transition:background .2s;
+}
+.cell:hover { background:#222; }
+
+/* Analysis & toggle */
+#analysis {
+  background:rgba(0,0,0,0.5); border:1px solid #444;
+  padding:1rem; margin:1rem auto;
+  max-width:90%; max-height:150px; overflow-y:auto;
+  font-size:.9rem; text-align:left;
+}
+#quantum-toggle-label {
+  display:none; margin-top:1rem; font-size:1rem;
+  cursor:pointer;
+}
+#game-result {
+  margin-top:1rem; font-size:1.3rem;
+}
+#learn-more {
+  display:inline-block; margin-top:1rem;
+  color:#66ccff; text-decoration:none; font-weight:bold;
+}
+#learn-more:hover { text-decoration:underline; }
