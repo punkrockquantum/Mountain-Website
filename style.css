@@ -1,21 +1,23 @@
-/* Global & torch */
+/* --- Global & Torch --- */
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
-  background:#000; color:#eee;
-  font-family:'Segoe UI',sans-serif;
-  overflow:hidden; height:100vh;
+  background:#000;
+  overflow:hidden;
+  height:100vh;
   cursor:none;
 }
 #torch {
-  position:absolute; width:300px; height:300px;
+  position:absolute;
+  width:300px; height:300px;
   margin:-150px 0 0 -150px;
   border-radius:50%;
   background:radial-gradient(circle, rgba(255,255,240,0.2) 0%, transparent 70%);
-  mix-blend-mode:screen; pointer-events:none;
+  mix-blend-mode:screen;
+  pointer-events:none;
   transition:top .02s,left .02s;
 }
 
-/* Hide by default */
+/* --- Initial Switch --- */
 #light-switch {
   position:absolute; top:40%; left:50%;
   transform:translate(-50%,-50%);
@@ -25,31 +27,82 @@ body {
   opacity:0; pointer-events:none;
   transition:opacity .15s ease;
 }
-/* Show when torch over it */
 #light-switch.visible {
   opacity:1; pointer-events:auto;
 }
 
-/* Panels hidden by default */
-#blackout-panel, #ready-panel, #game-panel {
-  position:absolute; top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  text-align:center; display:none;
+/* --- Panels (hidden by default) --- */
+#blackout-panel,
+#powerback-panel,
+#imbalance-panel,
+#game-panel {
+  position:absolute; top:0; left:0;
+  width:100%; height:100%;
+  display:none;
+  text-align:center;
 }
-/* Blackout styling */
+
+/* --- Blackout Panel --- */
+#blackout-panel {
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  color:#eee; background:#000;
+}
 #blackout-panel p { font-size:1.2rem; margin-bottom:1rem; }
-#timer { font-size:2.5rem; font-family:'Courier New',monospace; margin-bottom:1rem; }
-#skip-quantum, #go-game {
+#timer {
+  font-size:2.5rem; font-family:'Courier New',monospace;
+  margin-bottom:1rem;
+}
+#skip-quantum {
   background:#3366ff; border:none;
   color:#fff; padding:.75rem 1.5rem;
   border-radius:6px; font-size:1rem; cursor:pointer;
   transition:background .2s;
 }
-#skip-quantum:hover, #go-game:hover { background:#5590ff; }
+#skip-quantum:hover { background:#5590ff; }
 
-/* Game panel */
+/* --- Power-back Panel --- */
+#powerback-panel {
+  background:#fff; display:flex;
+  flex-direction:column; justify-content:center;
+  align-items:center;
+}
+#powerback-panel #logo {
+  max-width:200px;
+  margin-bottom:2rem;
+}
+#power-back-text {
+  font-family:'Helvetica',sans-serif;
+  font-size:46pt;
+  color:#000;
+  line-height:1.2;
+}
+
+/* --- Imbalance Panel --- */
+#imbalance-panel {
+  background:#000; display:flex;
+  justify-content:center; align-items:center;
+}
+#imbalance-panel p {
+  color:#fff; font-size:1.5rem;
+}
+#imbalance-timer {
+  font-size:2rem; font-family:'Courier New',monospace;
+}
+
+/* --- Game Panel --- */
+#game-panel {
+  background:#000;
+  color:#eee;
+  padding-top:2rem;
+  overflow:auto;
+}
 #game-panel h2 { margin-bottom:1rem; }
-#symbol-selection { margin-bottom:1rem; }
+
+/* Symbol selection */
+#symbol-selection {
+  margin-bottom:1rem;
+}
 #symbol-selection button {
   background:#444; border:none;
   color:#fff; padding:.5rem .75rem;
@@ -72,7 +125,7 @@ body {
 }
 .cell:hover { background:#222; }
 
-/* Analysis & toggle */
+/* Analysis & Quantum Toggle */
 #analysis {
   background:rgba(0,0,0,0.5); border:1px solid #444;
   padding:1rem; margin:1rem auto;
@@ -87,7 +140,7 @@ body {
   margin-top:1rem; font-size:1.3rem;
 }
 #learn-more {
-  display:inline-block; margin-top:1rem;
+  display:inline-block; margin:2rem auto;
   color:#66ccff; text-decoration:none; font-weight:bold;
 }
 #learn-more:hover { text-decoration:underline; }
