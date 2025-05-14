@@ -11,41 +11,48 @@
   <!-- Torchlight -->
   <div id="torch"></div>
 
-  <!-- Initial switch -->
+  <!-- 1) Initial switch -->
   <button id="light-switch">🔌 Switch On</button>
 
-  <!-- Blackout panel -->
+  <!-- 2) First blackout panel with 60s timer -->
   <div id="blackout-panel">
     <p>Power’s out — stand by for restoration.</p>
     <div id="timer">60</div>
     <button id="skip-quantum">Skip wait with Quantum Optimisation</button>
   </div>
 
-  <!-- Ready panel -->
-  <div id="ready-panel">
-    <p><strong>Mountain is about to change everything.</strong></p>
-    <button id="go-game">Try switching on again</button>
+  <!-- 3) Power-back white screen -->
+  <div id="powerback-panel">
+    <img id="logo" src="mountain-logo.png" alt="Mountain logo" />
+    <p id="power-back-text">
+      Mountain is building Quantum-Hybrid-Supercomputers,<br />
+      revolutionising supply and demand...<br />
+      and ending energy insecurity
+    </p>
   </div>
 
-  <!-- Game panel -->
+  <!-- 4) Imbalance warning with 20s countdown -->
+  <div id="imbalance-panel">
+    <p>
+      Grid imbalance detected — critical power outage in
+      <span id="imbalance-timer">20</span> seconds
+    </p>
+  </div>
+
+  <!-- 5) Tic-Tac-Toe game -->
   <div id="game-panel">
     <h2>Beat the supercomputer to unlock more</h2>
-    <!-- Symbol choice -->
     <div id="symbol-selection">
       <p>Choose your symbol:</p>
       <button id="choose-x">X</button>
       <button id="choose-o">O</button>
     </div>
-    <!-- Tic-Tac-Toe board -->
     <div id="board"></div>
-    <!-- Computer analysis script -->
     <pre id="analysis"></pre>
-    <!-- Quantum toggle -->
     <label id="quantum-toggle-label">
       <input type="checkbox" id="quantum-toggle" />
       Engage Quantum-Hybrid-Supercomputing Engine
     </label>
-    <!-- Result & learn more -->
     <div id="game-result"></div>
     <a href="product.html" id="learn-more">Learn More →</a>
   </div>
