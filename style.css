@@ -1,122 +1,93 @@
-// Elements
-const torch = document.getElementById('torch');
-const lightSwitch = document.getElementById('light-switch');
-const blackoutPanel = document.getElementById('blackout-panel');
-const timerEl = document.getElementById('timer');
-const skipBtn = document.getElementById('skip-quantum');
-const readyPanel = document.getElementById('ready-panel');
-const goGameBtn = document.getElementById('go-game');
-const gamePanel = document.getElementById('game-panel');
-const symbolSelection = document.getElementById('symbol-selection');
-const chooseX = document.getElementById('choose-x');
-const chooseO = document.getElementById('choose-o');
-const boardEl = document.getElementById('board');
-const analysisEl = document.getElementById('analysis');
-const quantumLabel = document.getElementById('quantum-toggle-label');
-const quantumToggle = document.getElementById('quantum-toggle');
-const resultEl = document.getElementById('game-result');
-
-let countdown, timeLeft = 60;
-let userSym, compSym, gameStarted = false;
-
-// Torch & switch visibility
-document.addEventListener('mousemove', e => {
-  torch.style.left = e.pageX + 'px';
-  torch.style.top  = e.pageY + 'px';
-
-  const rect = lightSwitch.getBoundingClientRect();
-  const over = (
-    e.clientX >= rect.left &&
-    e.clientX <= rect.right &&
-    e.clientY >= rect.top  &&
-    e.clientY <= rect.bottom
-  );
-  lightSwitch.classList.toggle('visible', over);
-});
-
-// Switch click → blackout panel
-lightSwitch.addEventListener('click', () => {
-  lightSwitch.style.display = 'none';
-  blackoutPanel.style.display = 'block';
-  startCountdown();
-});
-
-// Countdown
-function startCountdown() {
-  timerEl.textContent = timeLeft;
-  countdown = setInterval(() => {
-    timeLeft--;
-    timerEl.textContent = timeLeft;
-    if (timeLeft <= 0) clearAndReady();
-  }, 1000);
+/* Global & torch */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#000; color:#eee;
+  font-family:'Segoe UI',sans-serif;
+  overflow:hidden; height:100vh;
+  cursor:none;
 }
-skipBtn.addEventListener('click', clearAndReady);
-function clearAndReady() {
-  clearInterval(countdown);
-  blackoutPanel.style.display = 'none';
-  readyPanel.style.display = 'block';
+#torch {
+  position:absolute; width:300px; height:300px;
+  margin:-150px 0 0 -150px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,240,0.2) 0%, transparent 70%);
+  mix-blend-mode:screen; pointer-events:none;
+  transition:top .02s,left .02s;
 }
 
-// Ready → game
-goGameBtn.addEventListener('click', () => {
-  readyPanel.style.display = 'none';
-  gamePanel.style.display = 'block';
-});
-
-// Symbol selection
-chooseX.addEventListener('click', () => initGame('X','O'));
-chooseO.addEventListener('click', () => initGame('O','X'));
-
-function initGame(user, comp) {
-  userSym = user; compSym = comp;
-  symbolSelection.style.display = 'none';
-  buildBoard();
+/* Hide by default */
+#light-switch {
+  position:absolute; top:40%; left:50%;
+  transform:translate(-50%,-50%);
+  padding:1rem 2rem; font-size:1.2rem;
+  background:#222; border:2px solid #555;
+  color:#fff; border-radius:8px;
+  opacity:0; pointer-events:none;
+  transition:opacity .15s ease;
+}
+/* Show when torch over it */
+#light-switch.visible {
+  opacity:1; pointer-events:auto;
 }
 
-// Build board
-function buildBoard() {
-  boardEl.innerHTML = '';
-  for (let i=0; i<9; i++) {
-    const cell = document.createElement('div');
-    cell.className = 'cell';
-    cell.dataset.idx = i;
-    cell.addEventListener('click', userMove);
-    boardEl.append(cell);
-  }
+/* Panels hidden by default */
+#blackout-panel, #ready-panel, #game-panel {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center; display:none;
 }
-
-// User move → computer analysis
-function userMove(e) {
-  if (gameStarted) return;
-  gameStarted = true;
-  e.target.textContent = userSym;
-
-  // Fake analysis script
-  const script = `
-Computer analysis of possible moves:
-1) If I play at cell 0 → ...
-2) If I play at cell 1 → ...
-...
-8) If I play at cell 8 → ...
-Decision: I will play at cell 4.
-`;
-  analysisEl.textContent = script.trim();
-
-  // Computer plays center
-  boardEl.children[4].textContent = compSym;
-
-  // Reveal quantum toggle
-  quantumLabel.style.display = 'block';
-  quantumToggle.addEventListener('change', onQuantum);
+/* Blackout styling */
+#blackout-panel p { font-size:1.2rem; margin-bottom:1rem; }
+#timer { font-size:2.5rem; font-family:'Courier New',monospace; margin-bottom:1rem; }
+#skip-quantum, #go-game {
+  background:#3366ff; border:none;
+  color:#fff; padding:.75rem 1.5rem;
+  border-radius:6px; font-size:1rem; cursor:pointer;
+  transition:background .2s;
 }
+#skip-quantum:hover, #go-game:hover { background:#5590ff; }
 
-// Quantum engagement
-function onQuantum() {
-  if (!quantumToggle.checked) return;
-  // Fill board with user symbol
-  Array.from(boardEl.children).forEach(c => c.textContent = userSym);
-  resultEl.textContent = '✅ You win!';
-  const p = document.createElement('p');
-  p.innerHTML = '<em>Quantum Computers solve complex optimisation problems faster than any other. When combined with HPC, Mountain ends the risk of blackouts.</em>';
-  resultEl.appendChild(p);
+/* Game panel */
+#game-panel h2 { margin-bottom:1rem; }
+#symbol-selection { margin-bottom:1rem; }
+#symbol-selection button {
+  background:#444; border:none;
+  color:#fff; padding:.5rem .75rem;
+  font-size:1.2rem; margin:0 .5rem; cursor:pointer;
+  border-radius:4px; transition:background .2s;
 }
+#symbol-selection button:hover { background:#666; }
+
+/* Board */
+#board {
+  display:grid;
+  grid-template:repeat(3,100px)/repeat(3,100px);
+  gap:10px; margin:1rem auto;
+}
+.cell {
+  background:#111; border:2px solid #555;
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.5rem; cursor:pointer;
+  transition:background .2s;
+}
+.cell:hover { background:#222; }
+
+/* Analysis & toggle */
+#analysis {
+  background:rgba(0,0,0,0.5); border:1px solid #444;
+  padding:1rem; margin:1rem auto;
+  max-width:90%; max-height:150px; overflow-y:auto;
+  font-size:.9rem; text-align:left;
+}
+#quantum-toggle-label {
+  display:none; margin-top:1rem; font-size:1rem;
+  cursor:pointer;
+}
+#game-result {
+  margin-top:1rem; font-size:1.3rem;
+}
+#learn-more {
+  display:inline-block; margin-top:1rem;
+  color:#66ccff; text-decoration:none; font-weight:bold;
+}
+#learn-more:hover { text-decoration:underline; }
