@@ -2,45 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Mountain | No Blackouts</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Torch effect -->
+
+  <!-- Torchlight -->
   <div id="torch"></div>
 
   <!-- Initial switch -->
   <button id="light-switch">🔌 Switch On</button>
 
-<div id="blackout-panel">
-  <p>Power’s out — stand by for restoration.</p>
-  <div id="timer">60</div>
-  <button id="skip-quantum">Skip wait with Quantum Optimisation</button>
-</div>
-
-  <!-- Blackout panel with countdown & quantum skip -->
+  <!-- Blackout panel -->
   <div id="blackout-panel">
     <p>Power’s out — stand by for restoration.</p>
     <div id="timer">60</div>
     <button id="skip-quantum">Skip wait with Quantum Optimisation</button>
   </div>
 
-  <!-- After countdown or skip -->
+  <!-- Ready panel -->
   <div id="ready-panel">
     <p><strong>Mountain is about to change everything.</strong></p>
     <button id="go-game">Try switching on again</button>
   </div>
 
-  <!-- Tic-Tac-Toe game -->
+  <!-- Game panel -->
   <div id="game-panel">
     <h2>Beat the supercomputer to unlock more</h2>
+    <!-- Symbol choice -->
+    <div id="symbol-selection">
+      <p>Choose your symbol:</p>
+      <button id="choose-x">X</button>
+      <button id="choose-o">O</button>
+    </div>
+    <!-- Tic-Tac-Toe board -->
     <div id="board"></div>
+    <!-- Computer analysis script -->
     <pre id="analysis"></pre>
+    <!-- Quantum toggle -->
     <label id="quantum-toggle-label">
       <input type="checkbox" id="quantum-toggle" />
       Engage Quantum-Hybrid-Supercomputing Engine
     </label>
+    <!-- Result & learn more -->
     <div id="game-result"></div>
     <a href="product.html" id="learn-more">Learn More →</a>
   </div>
@@ -48,5 +53,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
-
