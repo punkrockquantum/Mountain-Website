@@ -2,23 +2,170 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mountain - No Blackouts</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mountain | No Blackouts</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      cursor: none;
+    }
+
+    .torch {
+      position: absolute;
+      pointer-events: none;
+      width: 300px;
+      height: 300px;
+      margin-left: -150px;
+      margin-top: -150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 80%);
+      mix-blend-mode: screen;
+    }
+
+    #content, #power-message, #quote-block, #final-message, #game-section {
+      display: none;
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+      z-index: 2;
+    }
+
+    #light-switch {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 40%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 60px;
+      background: #333;
+      color: white;
+      border: 2px solid #888;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+    }
+
+    button {
+      background: #444;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div id="torchlight"></div>
-  <main>
-    <section id="intro" class="hidden">
-      <h1>Mountain</h1>
-      <p>Mountain is building a future with no blackouts through hybrid-quantum energy optimization.</p>
-    </section>
-    <section id="about" class="hidden">
-      <h2>About Us</h2>
-      <p>We are pioneering energy solutions by integrated quantum computing dedicated to enhancing traditional grid systems.</p>
-    </section>
-    <!-- Add more sections as needed -->
-  </main>
-  <script src="script.js"></script>
+
+  <div id="torch" class="torch"></div>
+
+  <button id="light-switch">Switch On</button>
+
+  <div id="power-message">
+    <p>Unfortunately, there is a blackout.</p>
+    <button onclick="waitOneMinute()">Wait 1 Minute</button>
+    <button onclick="showNameInput()">Enter Your Name</button>
+  </div>
+
+  <div id="name-entry">
+    <input type="text" id="userName" placeholder="Enter your name" />
+    <button onclick="revealPartial()">Submit</button>
+  </div>
+
+  <div id="quote-block">
+    <p>“Energy insecurity impacts the UK: £8.25bn annually. Globally, this accounts for £120bn in costs.”</p>
+  </div>
+
+  <div id="final-message">
+    <p><strong>Mountain is about to change everything.</strong></p>
+    <button onclick="launchGame()">Try switching on again</button>
+  </div>
+
+  <div id="game-section">
+    <p>Beat the supercomputer at Tic Tac Toe to unlock more.</p>
+    <div>
+      <button onclick="choose('X')">Play as X</button>
+      <button onclick="choose('O')">Play as O</button>
+    </div>
+    <div id="board"></div>
+    <div>
+      <label>
+        <input type="checkbox" id="quantumToggle"> Engage Quantum Hybrid-Supercomputing Engine
+      </label>
+    </div>
+  </div>
+
+  <script>
+    const torch = document.getElementById('torch');
+    const lightSwitch = document.getElementById('light-switch');
+    const powerMessage = document.getElementById('power-message');
+    const nameEntry = document.getElementById('name-entry');
+    const quoteBlock = document.getElementById('quote-block');
+    const finalMessage = document.getElementById('final-message');
+    const gameSection = document.getElementById('game-section');
+
+    document.addEventListener('mousemove', e => {
+      torch.style.left = `${e.pageX}px`;
+      torch.style.top = `${e.pageY}px`;
+    });
+
+    lightSwitch.onclick = () => {
+      lightSwitch.style.display = "none";
+      powerMessage.style.display = "block";
+    };
+
+    function waitOneMinute() {
+      powerMessage.innerHTML = "<p>Waiting 60 seconds...</p>";
+      setTimeout(() => {
+        finalMessage.style.display = "block";
+      }, 60000);
+    }
+
+    function showNameInput() {
+      powerMessage.style.display = "none";
+      nameEntry.style.display = "block";
+    }
+
+    function revealPartial() {
+      nameEntry.style.display = "none";
+      quoteBlock.style.display = "block";
+      setTimeout(() => {
+        quoteBlock.style.display = "none";
+        finalMessage.style.display = "block";
+      }, 20000);
+    }
+
+    function launchGame() {
+      finalMessage.style.display = "none";
+      gameSection.style.display = "block";
+      startTicTacToe();
+    }
+
+    function choose(symbol) {
+      if (document.getElementById('quantumToggle').checked) {
+        document.getElementById('board').innerHTML = "<p>All cells filled with " + symbol + " — You win!</p><p>Quantum Computers solve complex optimisation problems faster than any other. When combined with traditional HPC, Mountain ends the risk of blackouts.</p><a href='product.html'>Learn more</a>";
+      } else {
+        document.getElementById('board').innerHTML = "<p>Computer is analysing every possible move...</p><p>You lost! Try again or toggle Quantum Hybrid Engine.</p>";
+      }
+    }
+
+    function startTicTacToe() {
+      document.getElementById('board').innerHTML = "<p>Select X or O to begin.</p>";
+    }
+  </script>
+
 </body>
 </html>
