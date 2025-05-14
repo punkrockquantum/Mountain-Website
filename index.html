@@ -1,40 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mountain | No Blackouts</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div id="torch"></div>
+  <button id="light-switch">🔌 Switch On</button>
 
-<div id="torch"></div>
-
-<button id="light-switch">🔌 Switch On</button>
-
-<div id="blackout-panel">
-  <p>Power’s out — stand by.</p>
-  <div id="timer">60</div>
-  <button id="skip-quantum">Skip with Quantum Optimisation</button>
-</div>
-
-<div id="powerback-panel">
-  <img id="logo" src="mountain-logo.jpg" alt="Mountain Logo">
-  <p id="power-back-text">
-    Mountain is building Quantum-Hybrid-Supercomputers,<br>
-    revolutionising supply and demand...<br>
-    and ending energy insecurity
-  </p>
-</div>
-
-<div id="imbalance-panel">
-  <p>Grid imbalance detected — critical power outage in <span id="imbalance-timer">20</span> seconds</p>
-</div>
-
-<div id="game-panel">
-  <h2>Beat the supercomputer to unlock more</h2>
-  <div id="symbol-selection">
-    <p>Choose your symbol:</p>
-    <button id="choose-x">X</button>
-    <button id="choose-o">O</button>
+  <div id="blackout-panel">
+    <p>Power’s out — stand by.</p>
+    <div id="timer">60</div>
+    <button id="skip-quantum">Skip with Quantum Optimisation</button>
   </div>
+
+  <div id="powerback-panel">
+    <img id="logo" src="mountain-logo.jpg" alt="Mountain Logo" />
+    <p id="power-back-text">
+      Mountain is building Quantum-Hybrid-Supercomputers,<br>
+      revolutionising supply and demand...<br>
+      and ending energy insecurity
+    </p>
+  </div>
+
+  <div id="imbalance-panel">
+    <p>Grid imbalance detected — critical power outage in <span id="imbalance-timer">20</span> seconds</p>
+  </div>
+
+  <div id="game-panel">
+    <h2>Beat the supercomputer to unlock more</h2>
+    <div id="symbol-selection">
+      <p>Choose your symbol:</p>
+      <button id="choose-x">X</button>
+      <button id="choose-o">O</button>
+    </div>
+    <div id="board"></div>
+    <pre id="analysis"></pre>
+    <label id="quantum-toggle-label">
+      <input type="checkbox" id="quantum-toggle" /> Engage Quantum-Hybrid-Supercomputing Engine
+    </label>
+    <div id="game-result"></div>
+    <a href="product.html" id="learn-more">Learn More →</a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
