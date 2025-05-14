@@ -1,4 +1,4 @@
-// ELEMENTS
+// ELEMENT REFS
 const torch         = document.getElementById('torch');
 const lightSwitch   = document.getElementById('light-switch');
 const blackoutPanel = document.getElementById('blackout-panel');
@@ -20,42 +20,45 @@ const resultEl      = document.getElementById('game-result');
 let t1 = 60, t2 = 20, countdown1, countdown2;
 let board, userSym, compSym, userTurn = true, gameOver = false;
 
-// Detect touch device
-const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+// Detect if desktop (hover capable)
+const isDesktop = window.matchMedia('(hover: hover)').matches;
 
-// 1A) Desktop: mousemove → torch & switch hover
-if (!isTouch) {
+// 1A) Desktop: torch follows mouse & hover reveal
+if (isDesktop) {
   document.addEventListener('mousemove', e => {
     torch.style.left = e.pageX + 'px';
     torch.style.top  = e.pageY + 'px';
-    // reveal switch on hover
-    const rect = lightSwitch.getBoundingClientRect();
-    const over = e.clientX >= rect.left &&
-                 e.clientX <= rect.right &&
-                 e.clientY >= rect.top  &&
-                 e.clientY <= rect.bottom;
+
+    const r = lightSwitch.getBoundingClientRect();
+    const over = e.clientX >= r.left && e.clientX <= r.right &&
+                 e.clientY >= r.top  && e.clientY <= r.bottom;
     lightSwitch.classList.toggle('visible', over);
   });
 }
 
-// 1B) Mobile: scroll → reveal switch under torch center
-if (isTouch) {
-  window.addEventListener('scroll', () => {
-    const rect = lightSwitch.getBoundingClientRect();
-    const centerY = window.innerHeight / 2;
-    const visible = rect.top < centerY && rect.bottom > centerY;
-    lightSwitch.classList.toggle('visible', visible);
+// 1B) Mobile: reveal via IntersectionObserver when centered
+if (!isDesktop) {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(ent => {
+      if (ent.target === lightSwitch) {
+        lightSwitch.classList.toggle('visible', ent.isIntersecting);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '-50% 0px -50% 0px'
   });
+  obs.observe(lightSwitch);
 }
 
-// Switch click → first blackout
+// 2) Click → first blackout
 lightSwitch.addEventListener('click', () => {
   lightSwitch.style.display = 'none';
   blackoutPanel.style.display = 'flex';
   startFirstCountdown();
 });
 
-// FIRST 60s COUNTDOWN
+// First 60 s countdown
 function startFirstCountdown() {
   timerEl.textContent = t1;
   countdown1 = setInterval(() => {
@@ -70,7 +73,7 @@ function clearFirst() {
   showPowerBack();
 }
 
-// POWER BACK (20s WHITE)
+// 3) Power-back (20 s white screen)
 function showPowerBack() {
   powerBack.style.display = 'flex';
   setTimeout(() => {
@@ -79,7 +82,7 @@ function showPowerBack() {
   }, 20000);
 }
 
-// IMBALANCE WARNING (20s)
+// 4) Imbalance warning (20 s)
 function showImbalance() {
   imbTimerEl.textContent = t2;
   imbalancePanel.style.display = 'flex';
@@ -94,7 +97,7 @@ function clearSecond() {
   startGame();
 }
 
-// START TIC-TAC-TOE GAME
+// 5) Tic-Tac-Toe game start
 function startGame() {
   board = Array(9).fill(null);
   gameOver = false; userTurn = true;
@@ -139,14 +142,14 @@ function onUserMove(e) {
 // Computer turn & scripted analysis
 function runComputerTurn() {
   const lines = board
-    .map((v,i) => v?null:`If I play at cell ${i}, evaluating...`)
+    .map((v,i)=> v?null:`If I play at cell ${i}, evaluating...`)
     .filter(Boolean);
   lines.push(`Decision: I will play at cell 4.`);
   analysisEl.textContent = '';
   let i = 0;
-  const iv = setInterval(() => {
+  const iv = setInterval(()=>{
     analysisEl.textContent += lines[i++] + '\n';
-    if (i >= lines.length) {
+    if (i>=lines.length) {
       clearInterval(iv);
       placeComp(4);
     }
@@ -165,7 +168,7 @@ function placeComp(i) {
 // Engage quantum
 function engageQuantum() {
   if (!quantumToggle.checked || gameOver) return;
-  board.forEach((_,i) => boardEl.children[i].textContent = userSym);
+  board.forEach((_,i)=> boardEl.children[i].textContent = userSym);
   end('✅ You win!');
 }
 
