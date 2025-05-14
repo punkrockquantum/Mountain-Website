@@ -1,16 +1,17 @@
 * {margin:0;padding:0;box-sizing:border-box;}
 body {
-  background:#000;color:#fff;font-family:sans-serif;height:200vh;overflow:auto;
+  background:#000;color:#fff;font-family:sans-serif;height:100vh;overflow:hidden;
 }
 #torch {
-  position:fixed;width:200px;height:200px;margin:-100px 0 0 -100px;top:50%;left:50%;
-  background:radial-gradient(rgba(255,255,255,0.2),transparent 60%);
+  position:fixed;width:250px;height:250px;margin:-125px 0 0 -125px;top:50%;left:50%;
+  background:radial-gradient(rgba(255,255,255,0.15),transparent 70%);
   pointer-events:none;z-index:1000;mix-blend-mode:screen;
 }
 #light-switch {
-  position:absolute;top:150vh;left:50%;transform:translateX(-50%);
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   padding:15px 30px;border:2px solid #fff;color:#fff;background:none;border-radius:6px;
-  opacity:0;transition:opacity 0.3s;pointer-events:none;
+  cursor:pointer;transition:opacity 0.3s;
+  opacity:0;pointer-events:none;
 }
 #light-switch.visible {opacity:1;pointer-events:auto;}
 
@@ -26,10 +27,18 @@ body {
 }
 
 #game-panel {
-  padding:20px;text-align:center;min-height:100vh;display:none;
+  padding:20px;text-align:center;min-height:100vh;display:none;overflow:auto;
 }
 #symbol-selection button {
   padding:10px 20px;margin:10px;background:#444;color:#fff;border:none;cursor:pointer;border-radius:4px;
 }
 #board {
-  display:grid;grid-template-columns:repeat(3,80px);gap:10px;margin
+  display:grid;grid-template-columns:repeat(3,80px);gap:10px;margin:20px auto;justify-content:center;
+}
+.cell {
+  width:80px;height:80px;background:#111;border:2px solid #444;display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;
+}
+#analysis {background:#222;padding:10px;margin:20px auto;width:90%;max-width:500px;text-align:left;border-radius:4px;}
+#quantum-toggle-label {display:none;margin:20px auto;cursor:pointer;}
+#game-result {margin-top:20px;font-size:1.2rem;}
+a {color:#66ccff;text-decoration:none;margin-top:20px;display:inline-block;}
