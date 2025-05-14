@@ -31,7 +31,7 @@ skip.onclick=startPowerback;
 
 function startPowerback(){
   blackout.style.display='none';powerback.style.display='flex';
-  setTimeout(()=>{powerback.style.display='none';startImbalance();},20000);
+  setTimeout(()=>{powerback.style.display='none';startImbalance();},200);
 }
 
 function startImbalance(){
