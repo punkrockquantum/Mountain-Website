@@ -1,137 +1,76 @@
-/* --- GLOBAL & PAGE LAYOUT --- */
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   background:#000;
-  height:200vh;    /* allow scrolling on mobile */
+  font-family:'Segoe UI', sans-serif;
+  height:200vh;
   overflow-y:scroll;
-  font-family:'Segoe UI',sans-serif;
-  position:relative;
 }
 
-/* --- TORCH (fixed size & mix-blend) --- */
 #torch {
   position:fixed;
-  top:50%; left:50%;
   width:300px; height:300px;
-  margin:-150px 0 0 -150px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(255,255,240,0.2) 0%, transparent 70%);
+  background:radial-gradient(circle,rgba(255,255,240,0.2),transparent 70%);
   mix-blend-mode:screen;
   pointer-events:none;
-  transition:top .02s,left .02s;
+  top:50%; left:50%; margin:-150px 0 0 -150px;
 }
 
-/* --- SWITCH BUTTON (hidden until reveal) --- */
 #light-switch {
-  position:absolute;
-  top:140vh; /* push down so you must scroll on mobile */
-  left:50%; transform:translateX(-50%);
+  position:absolute; top:140vh; left:50%;
+  transform:translateX(-50%);
   padding:1rem 2rem; font-size:1.2rem;
-  background:transparent; border:2px solid #fff;
-  color:#fff; border-radius:8px;
+  border:2px solid #fff; background:transparent; color:#fff;
   opacity:0; pointer-events:none;
-  transition:opacity .2s ease;
+  transition:opacity .3s ease;
 }
-#light-switch.visible {
-  opacity:1; pointer-events:auto;
-}
+#light-switch.visible { opacity:1; pointer-events:auto; }
 
-/* --- PANELS OVERLAY (all hidden by default) --- */
-#blackout-panel,
-#powerback-panel,
-#imbalance-panel,
-#game-panel {
+#blackout-panel, #powerback-panel, #imbalance-panel {
   position:fixed; top:0; left:0;
-  width:100%; height:100%;
-  display:none;
-  text-align:center;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
+  width:100%; height:100%; display:none;
+  flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; color:#fff; padding:1rem;
 }
 
-/* --- BLACKOUT PANEL --- */
-#blackout-panel {
-  background:#000; color:#eee;
-}
-#blackout-panel p { font-size:1.3rem; margin-bottom:1rem; }
-#timer {
-  font-size:2.5rem; font-family:'Courier New',monospace;
-  margin-bottom:1rem;
-}
+#blackout-panel p, #imbalance-panel p { font-size:1.5rem; }
+#timer, #imbalance-timer { font-size:2.5rem; margin:1rem 0; }
 #skip-quantum {
   background:#3366ff; border:none; color:#fff;
-  padding:.75rem 1.5rem; border-radius:6px; cursor:pointer;
-  transition:background .2s;
+  padding:.75rem 1.5rem; border-radius:5px; cursor:pointer;
 }
-#skip-quantum:hover { background:#5590ff; }
 
-/* --- POWER BACK PANEL --- */
 #powerback-panel {
-  background:#fff;
+  background:#fff; color:#000;
 }
-#logo {
-  max-width:200px; margin-bottom:2rem;
-}
+#logo { max-width:200px; margin-bottom:2rem; }
 #power-back-text {
-  font-family:'Helvetica',sans-serif;
-  font-size:46pt; color:#000; line-height:1.2;
+  font-family:'Helvetica', sans-serif; font-size:46pt; line-height:1.2;
 }
 
-/* --- IMBALANCE PANEL --- */
-#imbalance-panel {
-  background:#000;
-}
-#imbalance-panel p {
-  color:#fff; font-size:1.5rem;
-}
-#imbalance-timer {
-  font-size:2rem; font-family:'Courier New',monospace;
-}
-
-/* --- GAME PANEL --- */
 #game-panel {
-  background:#000; color:#eee;
-  padding-top:2rem; overflow-y:auto;
+  position:relative; padding:2rem; text-align:center;
+  color:#fff; display:none;
+  background:#000; min-height:100vh; overflow-y:auto;
 }
-#game-panel h2 { margin-bottom:1rem; }
+#game-panel h2 { margin-bottom:1.5rem; }
 
-/* Symbol selection */
-#symbol-selection { margin-bottom:1rem; }
 #symbol-selection button {
-  background:#444; border:none; color:#fff;
-  padding:.5rem .75rem; margin:0 .5rem;
-  font-size:1.2rem; border-radius:4px; cursor:pointer;
-  transition:background .2s;
+  padding:.5rem 1rem; font-size:1.2rem;
+  background:#444; color:#fff; border:none; border-radius:4px;
+  margin:0 .5rem; cursor:pointer;
 }
-#symbol-selection button:hover { background:#666; }
-
-/* Board */
 #board {
-  display:grid;
-  grid-template:repeat(3,100px)/repeat(3,100px);
-  gap:10px; margin:1rem auto;
+  display:grid; grid-template:repeat(3,100px)/repeat(3,100px);
+  gap:10px; justify-content:center; margin:1rem auto;
 }
 .cell {
-  background:#111; border:2px solid #555;
-  display:flex; align-items:center; justify-content:center;
-  font-size:2.5rem; cursor:pointer; transition:background .2s;
+  border:2px solid #555; display:flex; justify-content:center;
+  align-items:center; font-size:2.5rem; cursor:pointer; background:#111;
 }
-.cell:hover { background:#222; }
-
-/* Analysis & toggle */
 #analysis {
-  background:rgba(0,0,0,0.5); border:1px solid #444;
-  padding:1rem; margin:1rem auto;
-  max-width:90%; max-height:200px; overflow-y:auto;
-  font-size:.9rem; text-align:left;
+  background:#222; margin:1rem auto; padding:1rem; max-width:500px;
+  text-align:left; font-size:.9rem; overflow:auto; border-radius:5px;
 }
-#quantum-toggle-label {
-  display:none; margin-top:1rem; font-size:1rem; cursor:pointer;
-}
+#quantum-toggle-label { display:none; margin-top:1rem; cursor:pointer; }
 #game-result { margin-top:1rem; font-size:1.3rem; }
-#learn-more {
-  display:inline-block; margin-top:2rem;
-  color:#66ccff; text-decoration:none; font-weight:bold;
-}
-#learn-more:hover { text-decoration:underline; }
+#learn-more { color:#66ccff; display:inline-block; margin-top:2rem; }
